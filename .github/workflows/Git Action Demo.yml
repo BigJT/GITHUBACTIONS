@@ -1,0 +1,43 @@
+
+name: A Basic Workflow
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  
+  workflow_dispatch:
+    
+jobs:
+    build-app:
+      runs-on: ubuntu-latest
+    
+      steps:
+        - uses: actions/checkout@v3
+
+        - name: Run a one line script
+          run: echo "Hello, World!"
+      
+        - name: Run a multi-line script
+          run: |
+            echo "This is the first line"
+            echo "This is the second line"
+            echo "This is the third line" 
+      
+    build-api:
+      runs-on: windows-latest
+      steps:
+          - run: echo "Building API"
+  
+    build-db:
+      runs-on: ubuntu-latest
+      steps:
+        - run: echo "Building Database"
+  
+    package:
+      needs: [build-app, build-api, build-db]
+      runs-on: ubuntu-latest
+      steps:
+        - run: echo "Packaging the application"
+      
